@@ -15,6 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: compose config check
-        run: docker compose -f selfhost/docker-compose.yml config -q
+        run: |
+          cp selfhost/.env.example selfhost/.env
+          docker compose -f selfhost/docker-compose.yml config -q
       - name: yaml sanity (no tabs, parses)
         run: python3 -c "import yaml,glob; [yaml.safe_load(open(f)) for f in glob.glob('selfhost/*.yml')]"
